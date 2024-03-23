@@ -13,4 +13,4 @@ https://hub.docker.com/
 Then, the Dockerfile would be something like:
 
 FROM docker.io/node:lts as node-builder
-...
+
