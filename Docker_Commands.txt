@@ -1,0 +1,111 @@
+
+(step 1)
+
+docker build . -t angular-sample:v15
+
+(step 2)
+
+docker run -p 9010:8080 angular-sample:v15
+
+(step 3)
+
+open up browser: http://localhost:9010
+
+==================================================================================================
+
+
+(get inside of the running container)
+
+docker exec -it <containerID> <command>
+
+--
+
+docker ps
+
+CONTAINER ID   IMAGE                           COMMAND                  CREATED       STATUS       PORTS                              NAMES
+
+14f0b7a53249   nginxdemos/hello                "/docker-entrypoint.…"   3 hours ago   Up 3 hours                                      k8s_nginx_nginx-deployment-5f54fd49fc-wws4m_deployment-sample_4ff0ae04-d2e0-485a-8c78-4e9954d41993_0
+
+c749261a68d8   4960b98063d3                    "/harbor/entrypoint.…"   4 hours ago   Up 4 hours                                      k8s_jobservice_harbor-jobservice-5cbc797ff-zklxv_harbor_eb56d6e0-31ca-4685-91c9-e41de93e0078_5
+
+d251ad23e09f   goharbor/harbor-registryctl     "/home/harbor/start.…"   4 hours ago   Up 4 hours                                      k8s_registryctl_harbor-registry-c9d6894bd-qflxh_harbor_ba61850f-420a-445c-8361-7e00b3286d39_0
+
+726452787c61   goharbor/harbor-portal          "nginx -g 'daemon of…"   4 hours ago   Up 4 hours                                      k8s_portal_harbor-portal-6b8c795cf-wfrjd_harbor_592b822a-67ee-4195-b349-08f0778d3cfd_0
+
+09b6790c972a   angular-sample:v15              "container-entrypoin…"   4 hours ago   Up 4 hours   8443/tcp, 0.0.0.0:9010->8080/tcp   sharp_proskuriakova
+36b4d2f7edcc   f94213d142aa                    "/shared/argocd-dex …"   8 hours ago   Up 8 hours                                      
+
+
+--
+
+docker exec -it <containerID> <command>
+
+PS C:\Git\Angular-Sample\Angular-Sample> docker exec -it 09b6790c972a bash
+bash-5.1$ pwd
+/opt/app-root/src
+bash-5.1$ ls -al 
+total 212
+drwxr-xr-x 1 default root   4096 Mar 22 20:24 . 
+drwxrwxr-x 1 root    root   4096 Feb 29 16:14 ..
+drwxr-xr-x 3 default root   4096 Feb 29 16:06 .pki
+-rw-r--r-- 1 default 1001  12269 Mar 22 20:24 3rdpartylicenses.txt
+-rwxr-xr-x 1 default 1001    948 Mar 22 20:24 favicon.ico
+-rw-r--r-- 1 default 1001    575 Mar 22 20:24 index.html
+-rw-r--r-- 1 default 1001 129002 Mar 22 20:24 main.ddfd178cf43a8c9b.js
+drwxrwxr-x 2 default root   4096 Feb 29 16:17 nginx-start
+-rw-r--r-- 1 default 1001  33829 Mar 22 20:24 polyfills.21f72b6855c663e6.js
+-rw-r--r-- 1 default 1001    906 Mar 22 20:24 runtime.50cf05cf5aaa94c9.js
+-rw-r--r-- 1 default 1001      0 Mar 22 20:24 styles.ef46db3751d8e999.css
+bash-5.1$
+bash-5.1$ env
+PLATFORM=el9
+HOSTNAME=09b6790c972a
+NGINX_DEFAULT_CONF_PATH=/opt/app-root/etc/nginx.default.d
+NGINX_PERL_MODULE_PATH=/opt/app-root/etc/perl
+NGINX_CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/nginx
+NGINX_APP_ROOT=/opt/app-root
+NAME=nginx
+PWD=/opt/app-root/src
+NGINX_CONF_PATH=/etc/nginx/nginx.conf
+container=oci
+HOME=/opt/app-root/src
+SUMMARY=Platform for running nginx 1.22 or building nginx-based application
+NGINX_LOG_PATH=/var/log/nginx
+NGINX_SHORT_VER=122
+STI_SCRIPTS_URL=image:///usr/libexec/s2i
+APP_ROOT=/opt/app-root
+TERM=xterm
+SHLVL=1
+NGINX_CONFIGURATION_PATH=/opt/app-root/etc/nginx.d
+PATH=/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+VERSION=0
+DESCRIPTION=Nginx is a web server and a reverse proxy server for HTTP, SMTP, POP3 and IMAP protocols, with a strong focus on high concurrency, performance and low memory usage. The container image provides a containerized packaging of the nginx 1.22 daemon. The image can be used as a base 
+image for other applications based on nginx 1.22 web server. Nginx server image can be extended using source-to-image tool.
+NGINX_VERSION=1.22
+STI_SCRIPTS_PATH=/usr/libexec/s2i
+_=/usr/bin/env
+bash-5.1$
+
+
+-------------------------------------------------------------------------------------------------
+
+
+(clean up containers/images)
+
+docker system prune --all
+
+--
+C:\Users\jlee2>docker system prune --all
+WARNING! This will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all images without at least one container associated to them
+  - all build cache
+
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+13eeb456e0442d93dc82bc0187224432df6a786156161ecb76d4f57548d2bbe2
+f84721bca0511e881321f54c97ca2a7b1c85f5a080eed86bbb3c15361234fbcb
+...
+
+-------------------------------------------------------------------------------------------------

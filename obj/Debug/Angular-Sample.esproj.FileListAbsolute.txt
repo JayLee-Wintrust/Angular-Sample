@@ -1,0 +1,1 @@
+C:\Git\Angular-Sample\Angular-Sample\obj\Debug\Angular-Sample.esproj.CoreCompileInputs.cache
